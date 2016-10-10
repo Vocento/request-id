@@ -1,0 +1,21 @@
+{
+    "name": "vocento/request-id",
+    "license": "proprietary",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Vocento\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vocento\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.5"
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
