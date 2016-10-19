@@ -10,6 +10,7 @@
  */
 namespace Vocento;
 
+use Ramsey\Uuid\Uuid;
 use Vocento\Exception\EmptyRequestIdException;
 
 /**
@@ -44,7 +45,7 @@ final class RequestId
         $class = __CLASS__;
 
         if (null === $id) {
-            $id = uniqid(microtime(true).'.', true);
+            $id = str_replace('.','-',microtime(true)).'-'.Uuid::uuid4()->toString();
         }
 
         return new $class($id);

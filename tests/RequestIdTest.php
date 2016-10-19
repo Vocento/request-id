@@ -31,6 +31,20 @@ class RequestIdTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function noRepeatedRequestId()
+    {
+        $requestIds = [];
+
+        for ($i = 0; $i<100; $i++) {
+            $requestId = RequestId::create();
+            $this->assertFalse(array_key_exists($requestId->getId(), $requestIds));
+            $requestIds[$requestId->getId()] = true;
+        }
+    }
+
+    /**
+     * @test
+     */
     public function testCreateWithId()
     {
         $id = 'request.id.test';

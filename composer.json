@@ -12,6 +12,9 @@
             "Vocento\\Tests\\": "tests/"
         }
     },
+    "require": {
+        "ramsey/uuid": "~3.5"
+    },
     "require-dev": {
         "phpunit/phpunit": "^5.5"
     },
