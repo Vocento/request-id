@@ -70,4 +70,13 @@ class RequestIdTest extends \PHPUnit_Framework_TestCase
         $requestId = RequestId::create();
         $this->assertEquals(RequestId::HEADER_NAME, $requestId->getHeaderName());
     }
+
+    /**
+     * @test
+     */
+    public function testCastingToStringShouldReturnString()
+    {
+        $requestId = RequestId::create();
+        $this->assertInternalType('string', (string)$requestId);
+    }
 }
