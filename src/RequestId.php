@@ -25,7 +25,7 @@ final class RequestId
 
     /**
      * RequestId constructor.
-     * @param $id
+     * @param string $id
      */
     private function __construct($id)
     {
@@ -37,7 +37,7 @@ final class RequestId
     }
 
     /**
-     * @param null $id
+     * @param string|null $id
      * @return RequestId
      */
     public static function create($id = null)
