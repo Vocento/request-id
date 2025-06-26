@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
-         backupGlobals="false"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          colors="true"
          bootstrap="vendor/autoload.php"
 >
-    <php>
-        <ini name="error_reporting" value="-1" />
-    </php>
+  <php>
+    <ini name="display_errors" value="1"/>
+    <ini name="error_reporting" value="-1"/>
+    <server name="SHELL_VERBOSITY" value="-1"/>
+  </php>
 
-    <testsuites>
-        <testsuite name="User Core Service Client PHP Test Suite">
-            <directory>./tests/</directory>
-        </testsuite>
-    </testsuites>
+  <coverage>
+    <include>
+      <directory>src/</directory>
+    </include>
+    <report>
+      <clover outputFile="build/test/clover.xml"/>
+      <html outputDirectory="build/test/coverage"/>
+      <text outputFile="php://stdout"/>
+    </report>
+  </coverage>
 
-    <filter>
-        <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+  <logging>
+    <junit outputFile="build/test/coverage.xml"/>
+    <testdoxText outputFile="build/test/testdox.txt"/>
+    <testdoxHtml outputFile="build/test/testdox.html"/>
+  </logging>
+
+  <testsuites>
+    <testsuite name="Request Id Test Suite">
+      <directory>tests/</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

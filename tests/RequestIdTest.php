@@ -9,74 +9,72 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace Vocento\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Vocento\Exception\EmptyRequestIdException;
 use Vocento\RequestId;
 
 /**
  * @author Ariel Ferrandini <aferrandini@vocento.com>
+ * @author Hugo Santiago Becerra Adán <hsbecerra@vocento.com>
+ *
+ * @covers \Vocento\RequestId
+ *
+ * @internal
  */
-class RequestIdTest extends \PHPUnit_Framework_TestCase
+final class RequestIdTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function testCreate()
+    public function testCreateDefaultId(): void
     {
         $requestId = RequestId::create();
-        $this->assertInstanceOf('Vocento\RequestId', $requestId);
+
+        self::assertMatchesRegularExpression(
+            '/^\d+.\d+-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/',
+            $requestId->getId()
+        );
     }
 
-    /**
-     * @test
-     */
-    public function noRepeatedRequestId()
+    public function testNoRepeatedRequestId(): void
     {
         $requestIds = [];
 
-        for ($i = 0; $i<100; $i++) {
+        for ($i = 0; $i < 100; ++$i) {
             $requestId = RequestId::create();
-            $this->assertFalse(array_key_exists($requestId->getId(), $requestIds));
-            $requestIds[$requestId->getId()] = true;
+
+            self::assertNotContains($requestId->getId(), $requestIds);
+
+            $requestIds[] = $requestId->getId();
         }
     }
 
-    /**
-     * @test
-     */
-    public function testCreateWithId()
+    public function testCreateWithId(): void
     {
         $id = 'request.id.test';
         $requestId = RequestId::create($id);
-        $this->assertInstanceOf('Vocento\RequestId', $requestId);
-        $this->assertEquals($id, $requestId->getId());
+
+        self::assertSame($id, $requestId->getId());
     }
 
-    /**
-     * @test
-     */
-    public function testExceptionCreatingEmptyRequestId()
+    public function testExceptionCreatingEmptyRequestId(): void
     {
         $this->expectException(EmptyRequestIdException::class);
         RequestId::create('');
     }
 
-    /**
-     * @test
-     */
-    public function testGetHeaderName()
+    public function testGetHeaderName(): void
     {
         $requestId = RequestId::create();
-        $this->assertEquals(RequestId::HEADER_NAME, $requestId->getHeaderName());
+
+        self::assertSame(RequestId::HEADER_NAME, $requestId->getHeaderName());
     }
 
-    /**
-     * @test
-     */
-    public function testCastingToStringShouldReturnString()
+    public function testCastingToStringShouldReturnString(): void
     {
         $requestId = RequestId::create();
-        $this->assertInternalType('string', (string)$requestId);
+
+        self::assertSame($requestId->getId(), (string) $requestId);
     }
 }
