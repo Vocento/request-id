@@ -8,7 +8,7 @@ should be used between the microservices calls.
 To install the library, include the package as a requirement in your `composer.json` file.
 
 ```
-composer require "vocento/request-id"
+composer require vocento/request-id
 ```
 
 ## Usage

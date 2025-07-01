@@ -8,19 +8,22 @@
  * file that was distributed with this source code.
  *
  */
+
+declare(strict_types=1);
+
 namespace Vocento\Exception;
 
 /**
  * @author Ariel Ferrandini <aferrandini@vocento.com>
+ * @author Hugo Santiago Becerra Adán <hsbecerra@vocento.com>
  */
 class EmptyRequestIdException extends \RuntimeException
 {
     /**
      * EmptyRequestIdException constructor.
-     * @param \Exception|null $previous
      */
-    public function __construct(\Exception $previous = null)
+    public function __construct(?\Exception $previous = null)
     {
-        parent::__construct('Empty request id', null, $previous);
+        parent::__construct('Empty request id', 0, $previous);
     }
 }

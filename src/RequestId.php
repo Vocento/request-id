@@ -8,6 +8,9 @@
  * file that was distributed with this source code.
  *
  */
+
+declare(strict_types=1);
+
 namespace Vocento;
 
 use Ramsey\Uuid\Uuid;
@@ -15,63 +18,49 @@ use Vocento\Exception\EmptyRequestIdException;
 
 /**
  * @author Ariel Ferrandini <aferrandini@vocento.com>
+ * @author Hugo Santiago Becerra Adán <hsbecerra@vocento.com>
  */
 final class RequestId
 {
-    const HEADER_NAME = 'request-id';
+    public const HEADER_NAME = 'request-id';
 
-    /** @var string */
-    protected $id;
+    private string $id;
 
-    /**
-     * RequestId constructor.
-     * @param string $id
-     */
-    private function __construct($id)
+    private function __construct(string $id)
     {
-        if (empty($id)) {
+        if ('' === $id) {
             throw new EmptyRequestIdException();
         }
 
-        $this->id = (string)$id;
+        $this->id = $id;
     }
 
-    /**
-     * @param string|null $id
-     * @return RequestId
-     */
-    public static function create($id = null)
+    public static function create(?string $id = null): self
     {
-        $class = __CLASS__;
-
         if (null === $id) {
-            $id = str_replace('.','-',microtime(true)).'-'.Uuid::uuid4()->toString();
+            $microtime = (string) \microtime(true);
+
+            /** @var string $time */
+            $time = \str_replace('.', '-', $microtime);
+
+            $id = \sprintf('%s-%s', $time, Uuid::uuid4()->toString());
         }
 
-        return new $class($id);
+        return new self($id);
     }
 
-    /**
-     * @return string
-     */
-    public function getHeaderName()
+    public function getHeaderName(): string
     {
         return self::HEADER_NAME;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getId();
+        return $this->id;
     }
 }

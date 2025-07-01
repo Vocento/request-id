@@ -1,4 +1,6 @@
 .idea/
 vendor/
 bin/
+build/
 composer.lock
+/.phpunit.result.cache
